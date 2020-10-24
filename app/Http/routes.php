@@ -1,16 +1,27 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the controller to call when that URI is requested.
-|
-*/
+use Illuminate\Support\Facades\DB;
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/insert', function () {
+    DB::insert(
+        'insert into posts (title, body) values (?, ?)', 
+        ['PHP Laravel', 'Laravel is the best PHP Framework']
+    );
+
+    return 'Insert Successful';
+});
+
+Route::get('/show',function(){
+    $posts=DB::select('select * from posts');
+    return $posts;
+});
+
+Route::get('/update',function(){
+    $result=DB::update('update posts set title=? where id=?', ['Update title',1]);
+    return $result;
+});
+
+Route::get('/delete',function(){
+    $result=DB::delete('delete from posts where id = ?', [1]);
+    return $result;
 });
